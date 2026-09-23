@@ -4,7 +4,7 @@ import SwiftUI
 #if os(iOS)
 import UIKit
 
-private final class BackgroundCompletionHandlerBox: @unchecked Sendable {
+nonisolated private final class BackgroundCompletionHandlerBox: @unchecked Sendable {
     let handler: () -> Void
 
     init(_ handler: @escaping () -> Void) {
