@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		401CB0C230646C77002EF65B /* AppleAgentKit in Frameworks */ = {isa = PBXBuildFile; productRef = 401CB0C130646C77002EF65B /* AppleAgentKit */; };
+		401CB0C530647210002EF65B /* CoreAILM in Frameworks */ = {isa = PBXBuildFile; productRef = 401CB0C430647210002EF65B /* CoreAILM */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		401CB0AF306455BC002EF65B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				401CB0C530647210002EF65B /* CoreAILM in Frameworks */,
 				401CB0C230646C77002EF65B /* AppleAgentKit in Frameworks */,
 			);
 		};
@@ -67,6 +69,7 @@
 			name = AppleAgents;
 			packageProductDependencies = (
 				401CB0C130646C77002EF65B /* AppleAgentKit */,
+				401CB0C430647210002EF65B /* CoreAILM */,
 			);
 			productName = AppleAgents;
 			productReference = 401CB0B2306455BC002EF65B /* AppleAgents.app */;
@@ -98,6 +101,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				401CB0C030646C77002EF65B /* XCRemoteSwiftPackageReference "AppleAgentKit" */,
+				401CB0C330647210002EF65B /* XCRemoteSwiftPackageReference "coreai-models" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 401CB0B3306455BC002EF65B /* Products */;
@@ -252,7 +256,17 @@
 				DEVELOPMENT_TEAM = Z33726G6B5;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -297,7 +311,17 @@
 				DEVELOPMENT_TEAM = Z33726G6B5;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -362,6 +386,14 @@
 				minimumVersion = 0.1.5;
 			};
 		};
+		401CB0C330647210002EF65B /* XCRemoteSwiftPackageReference "coreai-models" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/coreai-models";
+			requirement = {
+				kind = revision;
+				revision = 938d0b8943b942ce66438b94ab017c5631d1aef4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -369,6 +401,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 401CB0C030646C77002EF65B /* XCRemoteSwiftPackageReference "AppleAgentKit" */;
 			productName = AppleAgentKit;
+		};
+		401CB0C430647210002EF65B /* CoreAILM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 401CB0C330647210002EF65B /* XCRemoteSwiftPackageReference "coreai-models" */;
+			productName = CoreAILM;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
