@@ -1,0 +1,25 @@
+[
+  {
+    "id": "qwen3-1.7b-coreai-macos",
+    "displayName": "Qwen3 1.7B CoreAI",
+    "description": "Modelo Qwen3 1.7B quantizado em 4 bits para execução local com CoreAI no macOS.",
+    "repositoryID": "SoreGus/Qwen3-1.7B-CoreAI",
+    "revision": "main",
+    "verifiedRevision": "cfec0c600f611370abd415765d64c3a19d954a12",
+    "matchingFiles": [
+      "macOS/qwen3_1_7b_4bit_dynamic/*"
+    ],
+    "expectedDownloadSize": 979929003,
+    "resourcePath": "macOS/qwen3_1_7b_4bit_dynamic",
+    "runtime": "coreAI",
+    "supportedPlatforms": [
+      "macOS"
+    ],
+    "minimumOSVersion": "27.0",
+    "supportedArchitectures": [
+      "arm64"
+    ],
+    "baseModel": "Qwen/Qwen3-1.7B",
+    "license": "apache-2.0"
+  }
+]
