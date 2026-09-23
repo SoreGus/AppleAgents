@@ -15,7 +15,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/coreai-models",
       "state" : {
-        "revision" : "938d0b8943b942ce66438b94ab017c5631d1aef4"
+        "revision" : "8965e7b39726fdfe218fbb8eb87457f81bd3374c"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mlc-ai/xgrammar",
       "state" : {
-        "branch" : "main",
-        "revision" : "97787376faee5ed8466cfad57c99855e4ce2f6aa"
+        "revision" : "4d145cc13d878c751ebeed36af1c013074be76bc",
+        "version" : "0.2.2"
       }
     },
     {

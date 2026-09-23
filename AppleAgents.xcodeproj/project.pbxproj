@@ -391,7 +391,7 @@
 			repositoryURL = "https://github.com/apple/coreai-models";
 			requirement = {
 				kind = revision;
-				revision = 938d0b8943b942ce66438b94ab017c5631d1aef4;
+				revision = 8965e7b39726fdfe218fbb8eb87457f81bd3374c;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
