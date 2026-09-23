@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SoreGus/AppleAgentKit",
       "state" : {
-        "revision" : "5a3f1d53942ee0988cb8662b9f1ea56bdcb1f979",
-        "version" : "0.1.5"
+        "revision" : "4891b5a2068918f7ed032d34efb7618049d45ffb",
+        "version" : "0.1.6"
       }
     },
     {
