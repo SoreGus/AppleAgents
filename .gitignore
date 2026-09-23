@@ -1,0 +1,81 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Xcode: builds, indexes, logs, and per-user state
+DerivedData/
+build/
+Build/
+Index.noindex/
+Logs/
+*.xcuserstate
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM/
+*.dSYM.zip
+*.xcarchive
+*.resultbundle
+*.xcresult
+
+# Swift Package Manager caches and local configuration
+.build/
+.swiftpm/
+Packages/
+SourcePackages/
+
+# CocoaPods (keep Podfile and Podfile.lock)
+Pods/
+
+# Carthage (keep Cartfile and Cartfile.resolved)
+Carthage/Build/
+Carthage/Checkouts/
+
+# Other dependency and build tools
+.bundle/
+vendor/bundle/
+.tuist-cache/
+Tuist/.build/
+.mint/
+
+# Code coverage and test output
+*.profraw
+*.profdata
+*.gcda
+*.gcno
+coverage/
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.p12
+*.mobileprovision
+*.cer
+*.key
+*.pem
+Secrets.xcconfig
+Local.xcconfig
+
+# Editors and temporary files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+
+# Keep Xcode projects/workspaces and reproducible dependency locks tracked.
+# Intentionally not ignored: *.xcodeproj, *.xcworkspace, Package.resolved.
