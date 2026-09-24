@@ -5,7 +5,7 @@
     "description": "Modelo Qwen3 1.7B quantizado em 4 bits para execução local com CoreAI no macOS.",
     "repositoryID": "SoreGus/Qwen3-1.7B-CoreAI",
     "revision": "main",
-    "verifiedRevision": "52610bb9bb2bfaefc170a1758926a4e3b1f80b92",
+    "verifiedRevision": "b43e265043bff7b8776dcf409ee0684efb19102f",
     "matchingFiles": [
       "macOS/qwen3_1_7b_4bit_dynamic/*"
     ],
@@ -23,17 +23,41 @@
     "license": "apache-2.0"
   },
   {
-    "id": "qwen3-1.7b-coreai-ios",
-    "displayName": "Qwen3 1.7B CoreAI",
+    "id": "qwen3-1.7b-coreai-ios-6bit",
+    "displayName": "Qwen3 1.7B CoreAI 6-bit",
     "description": "Modelo Qwen3 1.7B quantizado em 6 bits para execução local com CoreAI no iOS e iPadOS.",
     "repositoryID": "SoreGus/Qwen3-1.7B-CoreAI",
     "revision": "main",
-    "verifiedRevision": "52610bb9bb2bfaefc170a1758926a4e3b1f80b92",
+    "verifiedRevision": "b43e265043bff7b8776dcf409ee0684efb19102f",
     "matchingFiles": [
       "iOS/qwen3_1_7b_6bit_static/*"
     ],
     "expectedDownloadSize": 1422430208,
     "resourcePath": "iOS/qwen3_1_7b_6bit_static",
+    "runtime": "coreAI",
+    "supportedPlatforms": [
+      "iOS",
+      "iPadOS"
+    ],
+    "minimumOSVersion": "27.0",
+    "supportedArchitectures": [
+      "arm64"
+    ],
+    "baseModel": "Qwen/Qwen3-1.7B",
+    "license": "apache-2.0"
+  },
+  {
+    "id": "qwen3-1.7b-coreai-ios-4bit-group32",
+    "displayName": "Qwen3 1.7B CoreAI 4-bit Group32",
+    "description": "Modelo Qwen3 1.7B quantizado em 4 bits com group size 32 para execução local com CoreAI no iOS e iPadOS.",
+    "repositoryID": "SoreGus/Qwen3-1.7B-CoreAI",
+    "revision": "main",
+    "verifiedRevision": "b43e265043bff7b8776dcf409ee0684efb19102f",
+    "matchingFiles": [
+      "iOS/qwen3_1_7b_4bit_group32_static/*"
+    ],
+    "expectedDownloadSize": 1061507072,
+    "resourcePath": "iOS/qwen3_1_7b_4bit_group32_static",
     "runtime": "coreAI",
     "supportedPlatforms": [
       "iOS",
