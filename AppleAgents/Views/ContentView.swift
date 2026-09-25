@@ -3,13 +3,33 @@ import SwiftUI
 struct ContentView: View {
     @State private var app = AppViewModel()
 
+    #if DEBUG
+    @State private var isDiagnosticsSelected = false
+    #endif
+
     var body: some View {
         @Bindable var app = app
 
         NavigationSplitView {
-            List(AppDestination.allCases, selection: $app.destination) { destination in
-                Label(destination.title, systemImage: destination.symbol)
-                    .tag(destination)
+            List(selection: $app.destination) {
+                ForEach(AppDestination.allCases) { destination in
+                    Label(destination.title, systemImage: destination.symbol)
+                        .tag(destination)
+                }
+
+                #if DEBUG
+                Section("Debug") {
+                    Button {
+                        isDiagnosticsSelected = true
+                        app.destination = nil
+                    } label: {
+                        Label(
+                            "Diagnostics",
+                            systemImage: "waveform.path.ecg"
+                        )
+                    }
+                }
+                #endif
             }
             .navigationTitle("AppleAgents")
         } detail: {
@@ -48,17 +68,28 @@ struct ContentView: View {
 
     @ViewBuilder
     private var destinationView: some View {
+        #if DEBUG
+        if isDiagnosticsSelected {
+            DiagnosticsView()
+        } else {
+            mainDestinationView
+        }
+        #else
+        mainDestinationView
+        #endif
+    }
+
+    @ViewBuilder
+    private var mainDestinationView: some View {
         switch app.destination ?? .chat {
         case .chat:
             ChatView(app: app)
+
         case .models:
             ModelsView(app: app)
+
         case .settings:
             SettingsView(app: app)
         }
     }
-}
-
-#Preview {
-    ContentView()
 }

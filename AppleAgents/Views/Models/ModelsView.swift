@@ -93,17 +93,11 @@ struct ModelsView: View {
     private var localSection: some View {
         Section {
             LocalModelsView(app: app)
-
-            if case .local(let id) = app.selectedModel {
-                LocalModelPreparationStatusView(
-                    state: app.localModelPreparationState(for: id)
-                )
-            }
         } header: {
             Text("Local")
         } footer: {
             Text(
-                "Local models are downloaded through Hugging Face. Core AI prepares the selected model for this device before the first session."
+                "Local models are downloaded through Hugging Face. Core AI prepares a selected model for this device before its first session. Preparation can continue while you use other apps."
             )
         }
     }
@@ -120,62 +114,6 @@ struct ModelsView: View {
             selected: app.selectedModel == model.selection
         ) {
             app.select(model.selection)
-        }
-    }
-}
-
-private struct LocalModelPreparationStatusView: View {
-    let state: LocalModelPreparationState
-
-    var body: some View {
-        switch state {
-        case .idle:
-            Label(
-                "The model will be prepared for this device when it is first used.",
-                systemImage: "cpu"
-            )
-            .foregroundStyle(.secondary)
-
-        case .checking:
-            HStack(spacing: 10) {
-                ProgressView()
-                    .controlSize(.small)
-
-                Text("Checking device preparation…")
-            }
-
-        case .preparing:
-            HStack(alignment: .top, spacing: 10) {
-                ProgressView()
-                    .controlSize(.small)
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Preparing model for this device…")
-                    Text("This can take a while the first time. Keep the app open.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-
-        case .ready:
-            Label(
-                "Ready for this device",
-                systemImage: "checkmark.circle.fill"
-            )
-            .foregroundStyle(.green)
-
-        case .failed(let message):
-            VStack(alignment: .leading, spacing: 3) {
-                Label(
-                    "Model preparation failed",
-                    systemImage: "exclamationmark.triangle.fill"
-                )
-                .foregroundStyle(.red)
-
-                Text(message)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
         }
     }
 }

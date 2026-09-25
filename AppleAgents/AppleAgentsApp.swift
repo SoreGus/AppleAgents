@@ -15,13 +15,27 @@ nonisolated private final class BackgroundCompletionHandlerBox: @unchecked Senda
 final class AppleAgentsAppDelegate: NSObject, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [
+            UIApplication.LaunchOptionsKey: Any
+        ]? = nil
+    ) -> Bool {
+        LocalCoreAIModelPreparationCoordinator.shared.register()
+
+        return true
+    }
+
+    func application(
+        _ application: UIApplication,
         handleEventsForBackgroundURLSession identifier: String,
         completionHandler: @escaping () -> Void
     ) {
         let box = BackgroundCompletionHandlerBox(completionHandler)
+
         _ = HuggingFaceModelProvider.handleEvents(
             forBackgroundURLSession: identifier,
-            completionHandler: { box.handler() }
+            completionHandler: {
+                box.handler()
+            }
         )
     }
 }
@@ -30,7 +44,8 @@ final class AppleAgentsAppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct AppleAgentsApp: App {
     #if os(iOS)
-    @UIApplicationDelegateAdaptor(AppleAgentsAppDelegate.self) private var appDelegate
+    @UIApplicationDelegateAdaptor(AppleAgentsAppDelegate.self)
+    private var appDelegate
     #endif
 
     var body: some Scene {

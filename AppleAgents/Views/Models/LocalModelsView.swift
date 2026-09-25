@@ -15,11 +15,16 @@ struct LocalModelsView: View {
                 ContentUnavailableView(
                     "No Local Models",
                     systemImage: "cpu",
-                    description: Text("The bundled model catalog is empty.")
+                    description: Text(
+                        "The bundled model catalog is empty."
+                    )
                 )
             } else {
                 ForEach(app.localModels.catalog) { entry in
-                    LocalModelRow(app: app, entry: entry)
+                    LocalModelRow(
+                        app: app,
+                        entry: entry
+                    )
                 }
             }
         }
