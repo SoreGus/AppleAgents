@@ -214,7 +214,7 @@ final class LocalCoreAIModelPreparationCoordinator {
             return
         }
 
-        backgroundTask.progress.totalUnitCount = 3
+        backgroundTask.progress.totalUnitCount = 1
         backgroundTask.progress.completedUnitCount = 0
 
         backgroundTask.updateTitle(
@@ -247,8 +247,6 @@ final class LocalCoreAIModelPreparationCoordinator {
             }
 
             do {
-                backgroundTask.progress.completedUnitCount = 1
-
                 backgroundTask.updateTitle(
                     "Preparing Local Model",
                     subtitle: "Specializing the model for this device"
@@ -277,8 +275,6 @@ final class LocalCoreAIModelPreparationCoordinator {
                 )
 
                 try Task.checkCancellation()
-
-                backgroundTask.progress.completedUnitCount = 2
 
                 backgroundTask.updateTitle(
                     "Preparing Local Model",
@@ -311,7 +307,7 @@ final class LocalCoreAIModelPreparationCoordinator {
                     message: "Prepared model validation completed."
                 )
 
-                backgroundTask.progress.completedUnitCount = 3
+                backgroundTask.progress.completedUnitCount = 1
 
                 backgroundTask.updateTitle(
                     "Model Ready",
