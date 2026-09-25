@@ -69,5 +69,29 @@
     ],
     "baseModel": "Qwen/Qwen3-1.7B",
     "license": "apache-2.0"
+  },
+  {
+    "id": "qwen3-0.6b-coreai-ios-mixed-4bit-8bit",
+    "displayName": "Qwen3 0.6B CoreAI Mixed 4-bit/8-bit",
+    "description": "Modelo Qwen3 0.6B com quantização mista de 4 bits e 8 bits para execução local com CoreAI no iOS e iPadOS.",
+    "repositoryID": "SoreGus/Qwen3-0.6B-CoreAI",
+    "revision": "main",
+    "verifiedRevision": "7809bb5878f5a0798ca635fe193a3221fe72d8a4",
+    "matchingFiles": [
+      "iOS/qwen3_0_6b_mixed_4bit_8bit_static/*"
+    ],
+    "expectedDownloadSize": 452307976,
+    "resourcePath": "iOS/qwen3_0_6b_mixed_4bit_8bit_static",
+    "runtime": "coreAI",
+    "supportedPlatforms": [
+      "iOS",
+      "iPadOS"
+    ],
+    "minimumOSVersion": "27.0",
+    "supportedArchitectures": [
+      "arm64"
+    ],
+    "baseModel": "Qwen/Qwen3-0.6B",
+    "license": "apache-2.0"
   }
 ]

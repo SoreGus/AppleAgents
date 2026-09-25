@@ -1,4 +1,5 @@
 import AppleAgentKit
+import CoreAI
 import CoreAILanguageModels
 import Foundation
 import FoundationModels
@@ -9,6 +10,7 @@ import Observation
 final class AppViewModel {
     var destination: AppDestination? = .chat
     private(set) var selectedModel: ModelSelection?
+    private(set) var localModelPreparationStates: [String: LocalModelPreparationState] = [:]
     var presentedError: String?
     var confirmationMessage: String?
 
@@ -24,6 +26,9 @@ final class AppViewModel {
 
     @ObservationIgnored
     private let privateCloudModel = PrivateCloudComputeLanguageModel()
+
+    @ObservationIgnored
+    private let localModelPreparer = LocalCoreAIModelPreparer()
 
     @ObservationIgnored
     private var session: LanguageModelSession?
@@ -102,10 +107,15 @@ final class AppViewModel {
         selectedDescriptor != nil && chat.canSend
     }
 
+    func localModelPreparationState(for id: String) -> LocalModelPreparationState {
+        localModelPreparationStates[id] ?? .idle
+    }
+
     func prepare() async {
         guard !didPrepare else { return }
         didPrepare = true
         await localModels.prepare()
+        await refreshInstalledLocalModelPreparationStates()
         validateSelection()
     }
 
@@ -136,12 +146,14 @@ final class AppViewModel {
     }
 
     func install(_ entry: LocalModelCatalogEntry) {
+        localModelPreparationStates[entry.id] = .idle
         localModels.install(entry)
     }
 
     func cancel(_ entry: LocalModelCatalogEntry) async {
         do {
             try await localModels.cancel(entry)
+            localModelPreparationStates[entry.id] = .idle
         } catch {
             presentedError = userFacingMessage(for: error)
         }
@@ -150,6 +162,8 @@ final class AppViewModel {
     func remove(_ entry: LocalModelCatalogEntry) async {
         do {
             try await localModels.remove(entry)
+            localModelPreparationStates[entry.id] = .idle
+
             if selectedModel == .local(entry.id) {
                 selectedModel = nil
                 selectionStore.save(nil)
@@ -162,6 +176,7 @@ final class AppViewModel {
 
     func refreshLocalUpdates() async {
         await localModels.refreshUpdates()
+        await refreshInstalledLocalModelPreparationStates()
     }
 
     func saveRemoteSettings() {
@@ -214,6 +229,50 @@ final class AppViewModel {
         chat.reset()
     }
 
+    private func refreshInstalledLocalModelPreparationStates() async {
+        for entry in localModels.catalog where entry.isSupportedOnCurrentDevice && localModels.isInstalled(entry.id) {
+            localModelPreparationStates[entry.id] = .checking
+
+            do {
+                let resourcesURL = try await localResourcesURL(for: entry)
+                let prepared = try localModelPreparer.isPrepared(resourcesAt: resourcesURL)
+                localModelPreparationStates[entry.id] = prepared ? .ready : .idle
+            } catch {
+                localModelPreparationStates[entry.id] = .failed(userFacingMessage(for: error))
+            }
+        }
+    }
+
+    private func prepareLocalModel(_ entry: LocalModelCatalogEntry) async throws -> URL {
+        let resourcesURL = try await localResourcesURL(for: entry)
+
+        localModelPreparationStates[entry.id] = .checking
+
+        if try localModelPreparer.isPrepared(resourcesAt: resourcesURL) {
+            localModelPreparationStates[entry.id] = .ready
+            return resourcesURL
+        }
+
+        localModelPreparationStates[entry.id] = .preparing
+
+        do {
+            try await localModelPreparer.prepare(resourcesAt: resourcesURL)
+            localModelPreparationStates[entry.id] = .ready
+            return resourcesURL
+        } catch {
+            localModelPreparationStates[entry.id] = .failed(userFacingMessage(for: error))
+            throw error
+        }
+    }
+
+    private func localResourcesURL(for entry: LocalModelCatalogEntry) async throws -> URL {
+        let installation = try await localModels.installation(for: entry.id)
+        return installation.localURL.appending(
+            path: entry.resourcePath,
+            directoryHint: .isDirectory
+        )
+    }
+
     private func languageModelSession() async throws -> LanguageModelSession {
         guard let selectedModel else {
             throw SessionCreationError.noModelSelected
@@ -251,11 +310,8 @@ final class AppViewModel {
                   entry.isSupportedOnCurrentDevice else {
                 throw SessionCreationError.modelUnavailable
             }
-            let installation = try await localModels.installation(for: id)
-            let resourcesURL = installation.localURL.appending(
-                path: entry.resourcePath,
-                directoryHint: .isDirectory
-            )
+
+            let resourcesURL = try await prepareLocalModel(entry)
             let model = try await CoreAILanguageModel(resourcesAt: resourcesURL)
             newSession = LanguageModelSession(model: model, instructions: instructions)
         }
