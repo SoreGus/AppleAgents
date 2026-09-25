@@ -11,131 +11,115 @@
 import SwiftUI
 
 struct DiagnosticsView: View {
-    @State private var diagnostics =
-        DiagnosticsManager.shared
-
+    @State private var diagnostics = DiagnosticsManager.shared
     @State private var exportURL: URL?
-
     @State private var presentedError: String?
 
     var body: some View {
-        List {
-            Section {
-                LabeledContent(
-                    "Session",
-                    value: diagnostics.currentSession.id
-                        .uuidString
-                )
-
-                LabeledContent(
-                    "Records",
-                    value: "\(diagnostics.records.count)"
-                )
-            } header: {
-                Text("Current Run")
-            }
-
-            Section {
-                if diagnostics.records.isEmpty {
-                    ContentUnavailableView(
-                        "No Diagnostics",
-                        systemImage: "waveform.path.ecg",
-                        description: Text(
-                            "Diagnostic events will appear here."
-                        )
+        NavigationStack {
+            List {
+                Section {
+                    LabeledContent(
+                        "Session",
+                        value: diagnostics.currentSession.id.uuidString
                     )
-                } else {
-                    ForEach(
-                        diagnostics.records.reversed()
-                    ) { record in
-                        NavigationLink {
-                            DiagnosticRecordView(
-                                record: record
+
+                    LabeledContent(
+                        "Records",
+                        value: "\(diagnostics.records.count)"
+                    )
+                } header: {
+                    Text("Current Run")
+                }
+
+                Section {
+                    if diagnostics.records.isEmpty {
+                        ContentUnavailableView(
+                            "No Diagnostics",
+                            systemImage: "waveform.path.ecg",
+                            description: Text(
+                                "Diagnostic events will appear here."
                             )
+                        )
+                    } else {
+                        ForEach(diagnostics.records.reversed()) { record in
+                            NavigationLink {
+                                DiagnosticRecordView(record: record)
+                            } label: {
+                                DiagnosticRecordRow(record: record)
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Records")
+                }
+            }
+            .navigationTitle("Diagnostics")
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button {
+                        diagnostics.reload()
+                    } label: {
+                        Label(
+                            "Refresh",
+                            systemImage: "arrow.clockwise"
+                        )
+                    }
+
+                    if let exportURL {
+                        ShareLink(item: exportURL) {
+                            Label(
+                                "Share",
+                                systemImage: "square.and.arrow.up"
+                            )
+                        }
+                    } else {
+                        Button {
+                            prepareExport()
                         } label: {
-                            DiagnosticRecordRow(
-                                record: record
+                            Label(
+                                "Export",
+                                systemImage: "square.and.arrow.up"
                             )
                         }
                     }
-                }
-            } header: {
-                Text("Records")
-            }
-        }
-        .navigationTitle("Diagnostics")
-        .toolbar {
-            ToolbarItemGroup(
-                placement: .primaryAction
-            ) {
-                Button {
-                    diagnostics.reload()
-                } label: {
-                    Label(
-                        "Refresh",
-                        systemImage: "arrow.clockwise"
-                    )
-                }
 
-                if let exportURL {
-                    ShareLink(item: exportURL) {
-                        Label(
-                            "Share",
-                            systemImage: "square.and.arrow.up"
-                        )
-                    }
-                } else {
-                    Button {
-                        prepareExport()
+                    Button(role: .destructive) {
+                        diagnostics.clear()
+                        exportURL = nil
                     } label: {
                         Label(
-                            "Export",
-                            systemImage: "square.and.arrow.up"
+                            "Clear",
+                            systemImage: "trash"
                         )
                     }
                 }
-
-                Button(
-                    role: .destructive
-                ) {
-                    diagnostics.clear()
-                    exportURL = nil
-                } label: {
-                    Label(
-                        "Clear",
-                        systemImage: "trash"
-                    )
-                }
             }
-        }
-        .alert(
-            "Diagnostics Error",
-            isPresented: Binding(
-                get: {
-                    presentedError != nil
-                },
-                set: { isPresented in
-                    if !isPresented {
-                        presentedError = nil
+            .alert(
+                "Diagnostics Error",
+                isPresented: Binding(
+                    get: { presentedError != nil },
+                    set: {
+                        if !$0 {
+                            presentedError = nil
+                        }
                     }
+                )
+            ) {
+                Button("OK") {
+                    presentedError = nil
                 }
-            )
-        ) {
-            Button("OK") {
-                presentedError = nil
+            } message: {
+                Text(presentedError ?? "")
             }
-        } message: {
-            Text(presentedError ?? "")
         }
     }
 
     private func prepareExport() {
         do {
-            exportURL =
-                try diagnostics.prepareExport()
+            exportURL = try diagnostics.prepareExport()
         } catch {
-            presentedError =
-                error.localizedDescription
+            presentedError = error.localizedDescription
         }
     }
 }
@@ -151,9 +135,7 @@ private struct DiagnosticRecordRow: View {
             spacing: 4
         ) {
             HStack {
-                Image(
-                    systemName: levelSymbol
-                )
+                Image(systemName: levelSymbol)
 
                 Text(record.event)
                     .font(.headline)
@@ -259,10 +241,8 @@ private struct DiagnosticRecordView: View {
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
 
-                            Text(
-                                record.metadata[key] ?? ""
-                            )
-                            .textSelection(.enabled)
+                            Text(record.metadata[key] ?? "")
+                                .textSelection(.enabled)
                         }
                     }
                 }
